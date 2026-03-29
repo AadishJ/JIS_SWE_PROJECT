@@ -2,6 +2,8 @@ package com.jis.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.jis.dto.AccessCaseRequest;
 import com.jis.dto.AdjournmentRequest;
 import com.jis.dto.CloseCaseRequest;
@@ -14,16 +16,14 @@ import com.jis.entity.CaseAccess;
 import com.jis.entity.Hearing;
 import com.jis.entity.Payment;
 import com.jis.entity.User;
-import com.jis.repository.CaseRepository;
-import com.jis.repository.UserRepository;
-import com.jis.repository.HearingRepository;
 import com.jis.repository.AdjournmentRepository;
-import com.jis.repository.PaymentRepository;
 import com.jis.repository.CaseAccessRepository;
+import com.jis.repository.CaseRepository;
+import com.jis.repository.HearingRepository;
+import com.jis.repository.PaymentRepository;
+import com.jis.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

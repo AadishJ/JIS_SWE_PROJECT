@@ -1,4 +1,4 @@
-# 🧪 JIS Backend API - cURL Guide
+# JIS Backend API - cURL Guide
 
 Base URL:
 
@@ -8,7 +8,7 @@ http://localhost:8080
 
 ---
 
-# ⚖️ 1. Create Case (UC-01)
+# 1. Create Case (UC-01)
 
 ```bash
 curl -X POST http://localhost:8080/cases \
@@ -24,7 +24,7 @@ curl -X POST http://localhost:8080/cases \
 
 ---
 
-# ✏️ 2. Edit Case (UC-02)
+# 2. Edit Case (UC-02)
 
 ```bash
 curl -X PUT http://localhost:8080/cases/{cin} \
@@ -39,7 +39,7 @@ curl -X PUT http://localhost:8080/cases/{cin} \
 
 ---
 
-# 📅 3. Schedule Hearing (UC-03)
+# 3. Schedule Hearing (UC-03)
 
 ```bash
 curl -X POST http://localhost:8080/cases/hearings \
@@ -53,7 +53,7 @@ curl -X POST http://localhost:8080/cases/hearings \
 
 ---
 
-# ⏸️ 4. Record Adjournment (UC-04)
+# 4. Record Adjournment (UC-04)
 
 ```bash
 curl -X POST http://localhost:8080/cases/adjournments \
@@ -67,7 +67,7 @@ curl -X POST http://localhost:8080/cases/adjournments \
 
 ---
 
-# ⚖️ 5. Close Case (UC-05)
+# 5. Close Case (UC-05)
 
 ```bash
 curl -X POST http://localhost:8080/cases/{cin}/close \
@@ -79,7 +79,7 @@ curl -X POST http://localhost:8080/cases/{cin}/close \
 
 ---
 
-# 📊 6. View Pending Cases (UC-06)
+# 6. View Pending Cases (UC-06)
 
 ```bash
 curl -X GET http://localhost:8080/cases/pending
@@ -87,7 +87,7 @@ curl -X GET http://localhost:8080/cases/pending
 
 ---
 
-# 🔍 7. Query Case by CIN
+# 7. Query Case by CIN
 
 ```bash
 curl -X GET http://localhost:8080/cases/{cin}
@@ -95,7 +95,7 @@ curl -X GET http://localhost:8080/cases/{cin}
 
 ---
 
-# 📚 8. Browse Closed Case (UC-07 - Judge/Lawyer)
+# 8. Browse Closed Case (UC-07 - Judge/Lawyer)
 
 ```bash
 curl -X POST http://localhost:8080/cases/access \
@@ -108,7 +108,7 @@ curl -X POST http://localhost:8080/cases/access \
 
 ---
 
-# 🧪 9. Test Endpoint
+# 9. Test Endpoint
 
 ```bash
 curl -X GET http://localhost:8080/test
@@ -116,11 +116,11 @@ curl -X GET http://localhost:8080/test
 
 ---
 
-# 👤 Sample User Creation (Manual SQL)
+# Sample User Creation (Manual SQL)
 
 ```sql
 INSERT INTO users (name, password, role)
-VALUES 
+VALUES
 ('Registrar1', 'pass', 'REGISTRAR'),
 ('Judge1', 'pass', 'JUDGE'),
 ('Lawyer1', 'pass', 'LAWYER');
@@ -128,22 +128,22 @@ VALUES
 
 ---
 
-# ⚠️ Notes
+# Notes
 
-* Replace `{cin}` with actual case ID (e.g. `CIN-2026-ab12cd`)
-* Ensure user exists before calling APIs
-* Lawyer access triggers payment automatically
-* Dates must be in `YYYY-MM-DD` format
+- Replace `{cin}` with actual case ID (e.g. `CIN-2026-ab12cd`)
+- Ensure user exists before calling APIs
+- Lawyer access triggers payment automatically
+- Dates must be in `YYYY-MM-DD` format
 
 ---
 
-# 🚀 Tip
+# Tip
 
 Use tools like:
 
-* Postman
-* Insomnia
-* HTTPie
+- Postman
+- Insomnia
+- HTTPie
 
 for easier testing during development.
 
