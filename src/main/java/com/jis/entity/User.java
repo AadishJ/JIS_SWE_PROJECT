@@ -2,6 +2,8 @@ package com.jis.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -29,6 +31,7 @@ public class User {
 
     private String name;
 
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)

@@ -13,9 +13,11 @@ import com.jis.entity.Case;
 import com.jis.entity.Hearing;
 import com.jis.service.CaseService;
 import com.jis.repository.CaseRepository;
+import com.jis.security.AuthenticatedUser;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,8 +29,10 @@ public class CaseController {
     private final CaseRepository caseRepository;
 
     @PostMapping
-    public Case createCase(@RequestBody CreateCaseRequest request) {
-        return caseService.createCase(request);
+    public Case createCase(
+            @RequestBody CreateCaseRequest request,
+            @AuthenticationPrincipal AuthenticatedUser currentUser) {
+        return caseService.createCase(request, currentUser.userId());
     }
 
     @PutMapping("/{cin}")
@@ -61,8 +65,10 @@ public class CaseController {
     }
 
     @PostMapping("/access")
-    public Case accessClosedCase(@RequestBody AccessCaseRequest request) {
-        return caseService.accessClosedCase(request);
+    public Case accessClosedCase(
+            @RequestBody AccessCaseRequest request,
+            @AuthenticationPrincipal AuthenticatedUser currentUser) {
+        return caseService.accessClosedCase(request.getCin(), currentUser.userId());
     }
 
     @GetMapping("/{cin}")

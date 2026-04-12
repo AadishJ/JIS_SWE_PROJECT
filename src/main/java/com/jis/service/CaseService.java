@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.jis.dto.AccessCaseRequest;
 import com.jis.dto.AdjournmentRequest;
 import com.jis.dto.CloseCaseRequest;
 import com.jis.dto.CreateCaseRequest;
@@ -37,10 +36,10 @@ public class CaseService {
     private final PaymentRepository paymentRepository;
     private final CaseAccessRepository caseAccessRepository;
 
-    public Case createCase(CreateCaseRequest request) {
+    public Case createCase(CreateCaseRequest request, Integer currentUserId) {
 
         // Get registrar
-        User user = userRepository.findById(request.getCreatedBy())
+        User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Validate role
@@ -146,12 +145,12 @@ public class CaseService {
         return adjournmentRepository.save(adj);
     }
 
-    public Case accessClosedCase(AccessCaseRequest request) {
+    public Case accessClosedCase(String cin, Integer currentUserId) {
 
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Case caseEntity = caseRepository.findById(request.getCin())
+        Case caseEntity = caseRepository.findById(cin)
                 .orElseThrow(() -> new RuntimeException("Case not found"));
 
         // Only closed cases
@@ -159,12 +158,12 @@ public class CaseService {
             throw new RuntimeException("Case is not closed");
         }
 
-        //  Judge → free access
+        // Judge → free access
         if (user.getRole() == User.Role.JUDGE) {
             return caseEntity;
         }
 
-        //  Lawyer → must pay
+        // Lawyer → must pay
         if (user.getRole() == User.Role.LAWYER) {
 
             Payment payment = new Payment();

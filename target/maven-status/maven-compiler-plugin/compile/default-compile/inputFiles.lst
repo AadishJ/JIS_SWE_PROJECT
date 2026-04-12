@@ -1,11 +1,16 @@
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/JisBackendApplication.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/config/CorsConfig.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/config/SecurityConfig.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/controller/AuthController.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/controller/CaseController.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/controller/TestController.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/AccessCaseRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/AdjournmentRequest.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/AuthUserResponse.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/CloseCaseRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/CreateCaseRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/EditCaseRequest.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/LoginRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/ScheduleHearingRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/entity/Adjournment.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/entity/Case.java
@@ -19,5 +24,8 @@
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/repository/HearingRepository.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/repository/PaymentRepository.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/repository/UserRepository.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/security/AuthenticatedUser.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/security/JwtAuthenticationFilter.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/security/JwtService.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/service/CaseService.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/service/CinGenerator.java

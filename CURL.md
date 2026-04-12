@@ -8,6 +8,46 @@ http://localhost:8080
 
 ---
 
+# 0. Login / Logout (JWT cookie)
+
+## Login (by name)
+
+Use this if you created users with the sample SQL at the bottom (it doesn't require knowing `userId`).
+
+```bash
+curl -i -X POST http://localhost:8080/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Registrar1",
+    "password": "pass"
+  }'
+```
+
+## Login (by userId)
+
+```bash
+curl -i -X POST http://localhost:8080/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": 1,
+    "password": "pass"
+  }'
+```
+
+## Who am I?
+
+```bash
+curl -i -X GET http://localhost:8080/auth/me \
+  --cookie-jar cookies.txt --cookie cookies.txt
+```
+
+## Logout
+
+```bash
+curl -i -X POST http://localhost:8080/auth/logout \
+  --cookie-jar cookies.txt --cookie cookies.txt
+```
+
 # 1. Create Case (UC-01)
 
 ```bash
