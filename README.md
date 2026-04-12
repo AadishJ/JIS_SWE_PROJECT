@@ -6,22 +6,22 @@ A **Spring Boot + MySQL backend system** for managing judicial case workflows in
 
 ## 🚀 Features
 
-* ⚖️ Case Management (Create, Update, Close)
-* 📅 Hearing Scheduling & Adjournments
-* 💳 Lawyer Payment System for Case Access
-* 🔍 Query Cases (by CIN, date, status)
-* 👤 Role-Based Access (Registrar, Judge, Lawyer, Admin)
-* 📚 Access Control for Closed Cases
+- ⚖️ Case Management (Create, Update, Close)
+- 📅 Hearing Scheduling & Adjournments
+- 💳 Lawyer Payment System for Case Access
+- 🔍 Query Cases (by CIN, date, status)
+- 👤 Role-Based Access (Registrar, Judge, Lawyer, Admin)
+- 📚 Access Control for Closed Cases
 
 ---
 
 ## 🧱 Tech Stack
 
-* **Backend:** Spring Boot (Java)
-* **Database:** MySQL / MariaDB
-* **ORM:** Spring Data JPA (Hibernate)
-* **Build Tool:** Maven
-* **Utilities:** Lombok
+- **Backend:** Spring Boot (Java)
+- **Database:** MySQL / MariaDB
+- **ORM:** Spring Data JPA (Hibernate)
+- **Build Tool:** Maven
+- **Utilities:** Lombok
 
 ---
 
@@ -58,7 +58,15 @@ Create database:
 CREATE DATABASE jis_db;
 ```
 
-Update `application.properties`:
+Create the DB user (matches `application.properties`):
+
+```sql
+CREATE USER 'jis_user'@'localhost' IDENTIFIED BY 'password123';
+GRANT ALL PRIVILEGES ON jis_db.* TO 'jis_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Update `application.properties` (default is strict validation):
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/jis_db
@@ -68,6 +76,25 @@ spring.datasource.password=password123
 spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=true
 ```
+
+#### Do I need to create tables manually?
+
+- **Default (validate):** Yes — the app will refuse to start unless tables already exist.
+- **Local dev (recommended):** No — run with the `dev` profile and Hibernate will create/update tables for you and seed a few users.
+
+Run in dev mode:
+
+```bash
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+#### Default users (dev profile)
+
+When running with the `dev` profile, the app seeds these users automatically:
+
+- `Registrar1` / password: `pass` / role: `REGISTRAR`
+- `Judge1` / password: `pass` / role: `JUDGE`
+- `Lawyer1` / password: `pass` / role: `LAWYER`
 
 ---
 
@@ -117,39 +144,39 @@ Backend working!
 
 ### Entities:
 
-* User (Registrar, Judge, Lawyer, Admin)
-* Case
-* Hearing
-* Adjournment
-* Payment
-* CaseAccess
+- User (Registrar, Judge, Lawyer, Admin)
+- Case
+- Hearing
+- Adjournment
+- Payment
+- CaseAccess
 
 ### Relationships:
 
-* Case → multiple Hearings
-* Hearing → multiple Adjournments
-* User → Payments
-* Lawyer → Paid access to closed cases
+- Case → multiple Hearings
+- Hearing → multiple Adjournments
+- User → Payments
+- Lawyer → Paid access to closed cases
 
 ---
 
 ## 🔐 Business Rules
 
-* Only **Registrar** can create cases
-* Cases start with **PENDING** status
-* Closed cases cannot be modified
-* Adjournment requires existing hearing
-* Lawyers must **pay before accessing closed cases**
+- Only **Registrar** can create cases
+- Cases start with **PENDING** status
+- Closed cases cannot be modified
+- Adjournment requires existing hearing
+- Lawyers must **pay before accessing closed cases**
 
 ---
 
 ## 📌 Future Enhancements
 
-* 🔐 JWT Authentication & Authorization
-* 📊 Dashboard & Analytics
-* 📅 Court Slot Management
-* 💳 Payment Gateway Integration
-* 📄 Document Upload System
+- 🔐 JWT Authentication & Authorization
+- 📊 Dashboard & Analytics
+- 📅 Court Slot Management
+- 💳 Payment Gateway Integration
+- 📄 Document Upload System
 
 ---
 

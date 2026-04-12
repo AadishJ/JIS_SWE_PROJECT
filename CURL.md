@@ -8,6 +8,12 @@ http://localhost:8080
 
 ---
 
+Tip: For a fresh local database, you can run the app with the `dev` profile to auto-create tables and seed default users:
+
+```bash
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
 # 0. Login / Logout (JWT cookie)
 
 ## Login (by name)
