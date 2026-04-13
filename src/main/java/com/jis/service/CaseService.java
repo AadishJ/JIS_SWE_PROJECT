@@ -1,13 +1,17 @@
 package com.jis.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.jis.dto.AdjournmentRequest;
+import com.jis.dto.CaseStatusResponse;
 import com.jis.dto.CloseCaseRequest;
 import com.jis.dto.CreateCaseRequest;
 import com.jis.dto.EditCaseRequest;
+import com.jis.dto.HearingByDateResponse;
+import com.jis.dto.ResolvedCaseResponse;
 import com.jis.dto.ScheduleHearingRequest;
 import com.jis.entity.Adjournment;
 import com.jis.entity.Case;
@@ -121,10 +125,55 @@ public class CaseService {
     }
 
     public List<Case> getPendingCases() {
-        return caseRepository.findAll()
+        return caseRepository.findByStatusOrderByCinAsc(Case.Status.PENDING);
+    }
+
+    public List<HearingByDateResponse> getHearingsByDate(LocalDate hearingDate) {
+        if (hearingDate == null) {
+            throw new RuntimeException("hearing date is required");
+        }
+
+        return hearingRepository.findByHearingDateOrderByCourtSlotAsc(hearingDate)
                 .stream()
-                .filter(c -> c.getStatus() == Case.Status.PENDING)
+                .map(hearing -> {
+                    Case caseEntity = hearing.getCaseEntity();
+                    return new HearingByDateResponse(
+                            hearing.getHearingId(),
+                            caseEntity.getCin(),
+                            hearing.getHearingDate(),
+                            hearing.getCourtSlot(),
+                            caseEntity.getStatus(),
+                            caseEntity.getDefendantDetails(),
+                            caseEntity.getCrimeType());
+                })
                 .toList();
+    }
+
+    public List<ResolvedCaseResponse> getResolvedCases(LocalDate from, LocalDate to) {
+        validateDateRange(from, to);
+
+        return caseRepository.findByStatusOrderByCinAsc(Case.Status.CLOSED)
+                .stream()
+                .map(this::toResolvedCaseResponse)
+                .filter(response -> response.getJudgmentDate() != null
+                        && !response.getJudgmentDate().isBefore(from)
+                        && !response.getJudgmentDate().isAfter(to))
+                .toList();
+    }
+
+    public List<ResolvedCaseResponse> getJudgments(LocalDate from, LocalDate to) {
+        return getResolvedCases(from, to)
+                .stream()
+                .filter(response -> response.getJudgmentSummary() != null
+                        && !response.getJudgmentSummary().isBlank())
+                .toList();
+    }
+
+    public CaseStatusResponse getCaseStatus(String cin) {
+        Case caseEntity = caseRepository.findById(cin)
+                .orElseThrow(() -> new RuntimeException("Case not found"));
+
+        return new CaseStatusResponse(caseEntity.getCin(), caseEntity.getStatus());
     }
 
     public Adjournment recordAdjournment(AdjournmentRequest request) {
@@ -185,5 +234,32 @@ public class CaseService {
         }
 
         throw new RuntimeException("Unauthorized access");
+    }
+
+    private void validateDateRange(LocalDate from, LocalDate to) {
+        if (from == null || to == null) {
+            throw new RuntimeException("from and to are required");
+        }
+
+        if (from.isAfter(to)) {
+            throw new RuntimeException("from date must be before or equal to to date");
+        }
+    }
+
+    private ResolvedCaseResponse toResolvedCaseResponse(Case caseEntity) {
+        LocalDate caseStartDate = caseEntity.getCreatedAt() == null
+                ? null
+                : caseEntity.getCreatedAt().toLocalDate();
+
+        LocalDate judgmentDate = hearingRepository.findTopByCaseEntityCinOrderByHearingDateDesc(caseEntity.getCin())
+                .map(Hearing::getHearingDate)
+                .orElse(caseStartDate);
+
+        return new ResolvedCaseResponse(
+                caseStartDate,
+                caseEntity.getCin(),
+                judgmentDate,
+                "N/A",
+                caseEntity.getJudgmentSummary());
     }
 }

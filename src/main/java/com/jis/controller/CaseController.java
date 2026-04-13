@@ -1,24 +1,36 @@
 package com.jis.controller;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jis.dto.AccessCaseRequest;
 import com.jis.dto.AdjournmentRequest;
+import com.jis.dto.CaseStatusResponse;
 import com.jis.dto.CloseCaseRequest;
 import com.jis.dto.CreateCaseRequest;
 import com.jis.dto.EditCaseRequest;
+import com.jis.dto.HearingByDateResponse;
+import com.jis.dto.ResolvedCaseResponse;
 import com.jis.dto.ScheduleHearingRequest;
 import com.jis.entity.Adjournment;
 import com.jis.entity.Case;
 import com.jis.entity.Hearing;
-import com.jis.service.CaseService;
 import com.jis.repository.CaseRepository;
 import com.jis.security.AuthenticatedUser;
+import com.jis.service.CaseService;
 
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cases")
@@ -47,6 +59,20 @@ public class CaseController {
         return caseService.scheduleHearing(request);
     }
 
+    @GetMapping("/hearings")
+    public List<HearingByDateResponse> getHearingsByDate(
+            @RequestParam(name = "hearingDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hearingDate,
+            @RequestParam(name = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        LocalDate requestedDate = hearingDate != null ? hearingDate : date;
+        return caseService.getHearingsByDate(requestedDate);
+    }
+
+    @GetMapping("/hearings/{hearingDate}")
+    public List<HearingByDateResponse> getHearingsByDatePath(
+            @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hearingDate) {
+        return caseService.getHearingsByDate(hearingDate);
+    }
+
     @PostMapping("/{cin}/close")
     public Case closeCase(
             @PathVariable String cin,
@@ -57,6 +83,20 @@ public class CaseController {
     @GetMapping("/pending")
     public List<Case> getPendingCases() {
         return caseService.getPendingCases();
+    }
+
+    @GetMapping("/resolved")
+    public List<ResolvedCaseResponse> getResolvedCases(
+            @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+        return caseService.getResolvedCases(from, to);
+    }
+
+    @GetMapping("/judgments")
+    public List<ResolvedCaseResponse> getJudgments(
+            @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+        return caseService.getJudgments(from, to);
     }
 
     @PostMapping("/adjournments")
@@ -75,5 +115,10 @@ public class CaseController {
     public Case getCase(@PathVariable String cin) {
         return caseRepository.findById(cin)
                 .orElseThrow(() -> new RuntimeException("Case not found"));
+    }
+
+    @GetMapping("/{cin}/status")
+    public CaseStatusResponse getCaseStatus(@PathVariable String cin) {
+        return caseService.getCaseStatus(cin);
     }
 }

@@ -7,10 +7,13 @@
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/AccessCaseRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/AdjournmentRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/AuthUserResponse.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/CaseStatusResponse.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/CloseCaseRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/CreateCaseRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/EditCaseRequest.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/HearingByDateResponse.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/LoginRequest.java
+/mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/ResolvedCaseResponse.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/dto/ScheduleHearingRequest.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/entity/Adjournment.java
 /mnt/main/Aadi/Coding/College/SWE/JIS/src/main/java/com/jis/entity/Case.java
