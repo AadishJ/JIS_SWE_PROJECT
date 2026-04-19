@@ -36,6 +36,9 @@ public class AuthController {
     @Value("${jwt.cookie-secure:false}")
     private boolean cookieSecure;
 
+    @Value("${jwt.cookie-same-site:Lax}")
+    private String cookieSameSite;
+
     @PostMapping("/login")
     public AuthUserResponse login(@RequestBody LoginRequest request,
             jakarta.servlet.http.HttpServletResponse response) {
@@ -65,7 +68,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(cookieSecure)
                 .path("/")
-                .sameSite("Lax")
+                .sameSite(cookieSameSite)
                 .maxAge(jwtService.getExpirationSeconds())
                 .build();
 
@@ -92,7 +95,7 @@ public class AuthController {
                 .httpOnly(true)
                 .secure(cookieSecure)
                 .path("/")
-                .sameSite("Lax")
+                .sameSite(cookieSameSite)
                 .maxAge(0)
                 .build();
 
